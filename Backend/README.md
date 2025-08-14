@@ -75,3 +75,57 @@ Authenticates an existing user. The endpoint validates the provided email and pa
     }
   }
   ```
+
+---
+### GET /users/profile
+
+#### Description
+Retrieves the profile information of the currently authenticated user. This endpoint requires a valid authentication token.
+
+#### Authentication
+Requires Bearer token in Authorization header
+
+#### Response
+
+- **200 OK**
+  - Content: JSON object containing user information
+  
+- **401 Unauthorized**
+  - Content: JSON object with error message if token is invalid or missing
+
+#### Example Response
+```json
+{
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john.doe@example.com",
+  "_id": "60c72b2f9b1d8e001c8e4b8a"
+}
+```
+
+---
+
+### GET /users/logout
+
+#### Description
+Logs out the currently authenticated user by invalidating their token. The token is added to a blacklist to prevent further use.
+
+#### Authentication
+Requires Bearer token in Authorization header
+
+#### Response
+
+- **200 OK**
+  - Content: JSON object with success message
+  
+- **401 Unauthorized**
+  - Content: JSON object with error message if token is invalid or missing
+
+#### Example Response
+```json
+{
+  "message": "Logout successful"
+}
+```

@@ -1,7 +1,10 @@
 const userModel = require('../models/user.model');
 
 module.exports.createUser = async ({
-    firstname, lastname, email, password
+    firstname,
+    lastname,
+    email,
+    password
 }) => {
 
     if (!firstname || !email || !password) {
@@ -26,9 +29,8 @@ module.exports.findUserByEmail = async (email) => {
         throw new Error('Email is required');
     }
     const user = await userModel.findOne({ email }).select('+password');
-    if (!user) {
-        throw new Error('User not found');
-    }
+
 
     return user;
 }
+
