@@ -1,9 +1,7 @@
-const e = require('express');
 const userModel = require('../models/user.model');
 const userService = require('../services/user.service');
 const { validationResult } = require('express-validator');
-const jwt = require('jsonwebtoken');
-const BlacklistTokenModel = require('../models/blacklistToken.model');
+
 
 exports.registerUser = async (req, res, next) => {
     const errors = validationResult(req);
@@ -14,6 +12,12 @@ exports.registerUser = async (req, res, next) => {
     const { fullname, email, password } = req.body;
 
     const hashPassword = await userModel.hashPassword(password);
+
+    const isUserExists = await userModel.find({ email });
+    if (isUserExists) {
+        return res.status(400).json({ message: 'User with this email already exists' });
+    };
+
 
     const user = await userService.createUser({
         firstname: fullname.firstname,
@@ -61,11 +65,11 @@ exports.getUserProfile = async (req, res, next) => {
 };
 
 exports.logoutUser = async (req, res, next) => {
-    res.clearCookie('token');
 
     const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
 
-    await BlacklistTokenModel.create({ token });
+    userService.blackListToken(token);
+    res.clearCookie('token');
 
     res.status(200).json({ message: 'Logged out' });
 
