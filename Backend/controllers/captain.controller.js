@@ -72,7 +72,7 @@ module.exports.loginCaptain = async (req, res, next) => {
 }
 
 module.exports.getCaptainProfile = async (req, res, next) => {
-    res.status(200).json(req.user);
+    res.status(200).json(req.captain);
 
 }
 
