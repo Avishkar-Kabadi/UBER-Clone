@@ -13,6 +13,7 @@ module.exports.registerCaptain = async (req, res, next) => {
         const hashPassword = await captainModel.hashPassword(password);
 
         const isCaptainExists = await captainModel.findOne({ email });
+
         if (isCaptainExists) {
             return res.status(400).json({ message: 'Captain with this email already exists' });
         }
@@ -48,9 +49,6 @@ module.exports.loginCaptain = async (req, res, next) => {
         const { email, password } = req.body;
 
         const captain = await captainService.findCaptainByEmail(email);
-
-        console.log(captain);
-
 
         if (!captain) {
             return res.status(401).json({ message: 'Invalid email or password' });

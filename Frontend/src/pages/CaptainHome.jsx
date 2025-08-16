@@ -1,11 +1,9 @@
 import React from 'react'
 
-const Home = () => {
+export default function CaptainHome() {
   return (
     <div>
-      
+      Captain Home
     </div>
   )
 }
-
-export default Home
